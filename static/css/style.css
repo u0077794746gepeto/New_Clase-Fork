@@ -1,0 +1,301 @@
+/* =======================
+   VARIABLES
+======================= */
+
+:root {
+    --orange: #ff7a2f;
+    --orange-soft: #ff9a5c;
+    --dark: #0f1117;
+    --dark-panel: #1a1d27;
+    --border-glow: rgba(255,122,47,0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =======================
+   BODY
+======================= */
+
+
+body {
+    min-height: 100vh; /* Volvemos al tamaño normal de pantalla */
+    display: flex;
+    flex-direction: column; /* Apila los elementos uno bajo otro */
+    justify-content: flex-start; /* Los pega arriba para que tú los bajes */
+    align-items: center;
+    padding-top: 100px; /* Este espacio separa tu título del techo */
+    background: radial-gradient(circle at top, #222836, #0b0e14);
+    font-family: 'Segoe UI', sans-serif;
+}
+/* =======================
+   CONTENEDOR GENERAL
+======================= */
+
+.container {
+    width: 900px;
+    height: 480px;
+    display: flex;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--dark-panel);
+    box-shadow:
+        0 0 40px rgba(0,0,0,.8),
+        0 0 25px var(--border-glow);
+    position: relative;
+}
+
+/* =======================
+   PANEL IZQUIERDO
+======================= */
+
+.left-panel {
+    width: 45%;
+    background: linear-gradient(135deg,#ff8c42,#ff5f1f);
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+    padding: 50px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* Cambia center por flex-start para subir el texto */
+    justify-content: flex-start; 
+    /* Añade este margen superior para ajustar la altura exacta */
+    padding-top: 80px;
+    /* El primer valor es arriba, el segundo derecha, el tercero abajo y el cuarto IZQUIERDA */
+    /* Bajamos de 50px a 20px en la izquierda */
+    padding: 80px 50px 50px 30px; 
+}
+
+.left-panel h2 {
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+}
+
+.left-panel p {
+    opacity: .9;
+    line-height: 1.5;
+}
+
+/* =======================
+   PANEL DERECHO
+======================= */
+
+.right-panel {
+    width: 55%;
+    padding: 50px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-panel h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+/* =======================
+   FORM
+======================= */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =======================
+   INPUTS
+======================= */
+
+.input-box {
+    position: relative;
+}
+
+.input-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #444;
+    padding: 10px 35px 10px 0;
+    color: white;
+    font-size: 15px;
+}
+
+.input-box input:focus {
+    outline: none;
+    border-color: var(--orange);
+}
+
+.input-box span {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    color: var(--orange-soft);
+}
+
+/* =======================
+   BOTÓN
+======================= */
+
+button {
+    margin-top: 10px;
+    background: linear-gradient(135deg,#ff8c42,#ff5f1f);
+    border: none;
+    padding: 12px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s ease;
+    box-shadow: 0 0 15px rgba(255,122,47,.6);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(255,122,47,.9);
+}
+
+/* =======================
+   LINKS
+======================= */
+
+.link-btn {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #aaa;
+    text-align: center;
+}
+
+.link-btn a {
+    color: var(--orange);
+    text-decoration: none;
+}
+
+/* =======================
+   FLASH
+======================= */
+
+.flash {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4d4d;
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width: 900px) {
+    .container {
+        width: 90%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .left-panel {
+        clip-path: none;
+        width: 100%;
+    }
+
+    .right-panel {
+        width: 100%;
+    }
+}
+/* =======================
+   HEADER SUPERIOR
+======================= */
+
+.main-header {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+
+
+.main-header h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg,#ffb347,#ff7a2f,#ff4f00);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow:
+        0 0 12px rgba(255,122,47,.7),
+        0 0 30px rgba(255,122,47,.4);
+} 
+/* =======================
+   CAMPUS WRAPPER
+======================= */
+
+.campus-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =======================
+   CARD CAMPUS
+======================= */
+
+.campus-card {
+    background: #1a1d27;
+    padding: 50px;
+    border-radius: 22px;
+    color: white;
+    min-width: 420px;
+    text-align: center;
+
+    /* box-shadow:
+        0 0 40px rgba(0,0,0,.9),
+        0 0 30px rgba(255,122,47,.35); */
+}
+
+.campus-card h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #ff9a5c;
+}
+
+.campus-card p {
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+/* =======================
+   PARA LA API DEL TIEMPO
+======================= */
+
+
+.weather-box {
+    clear: both; /* Rompe cualquier flotación anterior */
+    display: block; /* Se comporta como un bloque completo */
+    width: fit-content; /* Se ajusta al texto */
+    margin: 20px auto; /* Lo centra horizontalmente */
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil oscuro */
+    color: #ff8c00; /* Color naranja como tu logo */
+    border-radius: 10px;
+    border: 1px solid #ff8c00;
+
+    opacity: 0; /* Empieza invisible */
+    transition: opacity 1.5s ease-in-out; /* Aparece suavemente en 1.5 segundos */
+    /* ... el resto de tu código que ya tenías ... */
+}
+
+/* Box Model: Usamos padding para dar aire al texto y margin para separarlo de otros elementos.
+Bordes suaves: El border-radius hace que las esquinas sean redondeadas, dando un aspecto más actual.
+Colores: Elegimos tonos azulados (#f0f4f8) porque transmiten confianza y limpieza en entornos educativos. */
+

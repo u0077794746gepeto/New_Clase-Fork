@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2></h2>
+
+<div class="left-panel">
+    <h2>BIENVENIDO</h2>
+    <h2>ADMINISTRADOR</h2>
+
+      <p>
+      logeate para continuar 
+    </p>
+
+</div>
+
+<div class="right-panel">
+
+    <h2>Login Administrador</h2>
+
+    <form method="POST" class="card">
+
+        <div class="input-box">
+            <input type="text" name="username" placeholder="Username" required>
+            <span>👤</span>
+        </div>
+
+        <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required>
+            <span>🔒</span>
+        </div>
+
+        <button>Login</button>
+
+    </form>
+
+  
+
+</div>  
+{% endblock %}

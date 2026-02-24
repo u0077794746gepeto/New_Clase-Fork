@@ -347,3 +347,10 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+
+#esquema de base de datos
+INfoDataBase/Schema.sql
+
+#bloqueo el .env
+.env

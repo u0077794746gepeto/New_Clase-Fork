@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NewCampus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <script>
+        const API_KEY_FROM_SERVER = "{{ api_key }}";
+    </script>
+    
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+
+
+<body>
+
+      <header class="main-header">
+         <h2>🎓 Campus Konectia</h2>
+      </header>
+
+
+<div class="container">
+
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+                {% for msg in messages %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+   
+</div>
+
+
+<!-- añadimos enlace para poner un mapa en la web -->
+<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1400.4723085312912!2d-3.81179255809286!3d43.46424212659602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2ses!4v1771410795421!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+
+<!-- <iframe src="https://api.nasa.gov/planetary/apod?api_key=XNrU1cRhsRBwouqb3pS7TQh7myPM7K9VVBzSrvee"></iframe> -->
+
+
+
+<!-- contenedor donde se verá la información de la Api del tiempo -->
+<div id="clima" class="weather-box">
+    Cargando datos del tiempo...
+</div>
+<!-- hasta aqui -->
+
+</body>
+
+</html>
+
+
+

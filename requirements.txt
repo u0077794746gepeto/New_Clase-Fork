@@ -1,0 +1,12 @@
+flask
+psycopg2-binary
+python-dotenv
+werkzeug
+
+#dependencia para despliegue en runway (va unico al archivo procfile)
+gunicorn
+
+#para la imagen de la nasa
+#requests
+
+#pip install -r requirements.txt

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="left-panel">
+    <h2>REGISTRATE</h2>
+    <p>
+        Crea tu cuenta y comienza tu experiencia en el campus.
+    </p>
+</div>
+
+<div class="right-panel">
+
+    <h2>Registrate</h2>
+
+    <form method="POST" class="card">
+
+        <div class="input-box">
+            <input type="text" name="username" placeholder="Username" required>
+            <span>👤</span>
+        </div>
+
+        <div class="input-box">
+            <input type="email" name="email" placeholder="Email" required>
+            <span>📧</span>
+        </div>
+
+        <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required>
+            <span>🔒</span>
+        </div>
+
+        <button>Registrate</button>
+
+    </form>
+
+    <div class="link-btn">
+        ¿Ya estás registrado?
+        <a href="{{ url_for('index') }}">Login</a>
+    </div>
+
+</div>
+
+{% endblock %}
