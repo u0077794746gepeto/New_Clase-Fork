@@ -159,7 +159,7 @@ def perfil_admin():
                 session["user_mail"] = user[3]
                 session["user_rol"] = role
 
-                return render_template("base_admin.html")
+                return render_template("perfil_admin.html")
             else:
                 flash("⚠️ No tiene permisos de administrador.")
                 return redirect(url_for("index"))
