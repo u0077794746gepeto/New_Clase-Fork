@@ -207,7 +207,7 @@ def buscar_usuarios():
             WHERE user_name ILIKE %s 
                OR user_mail ILIKE %s 
                OR DATE(creado_en)::text LIKE %s
-            LIMIT 10
+            LIMIT 100
         """, (f"%{search}%", f"%{search}%", f"%{search}%"))
 
         usuarios = cur.fetchall()
