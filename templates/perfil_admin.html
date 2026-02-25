@@ -149,7 +149,7 @@
 
     <script>
     document.getElementById('btn-usuarios').addEventListener('click', function() {
-        console.log('Abriendo gestor de usuarios');
+        window.location.href = "{{ url_for('mod_usuarios') }}";
     });
 
     document.getElementById('btn-asignaturas').addEventListener('click', function() {

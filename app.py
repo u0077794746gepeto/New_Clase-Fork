@@ -133,8 +133,15 @@ def inject_api_key():
 #Creamos la URL para el administrador
 @app.route("/app-admin", methods=("GET", "POST"))
 def perfil_admin():
+    # Si ya está autenticado como administrador, mostrar el panel
+    if "user_id" in session and session.get("user_rol", "").lower() in ("admin", "administrador"):
+        if request.method == "POST":
+            # Si accede por POST, redirige a GET para mantener la sesión limpia
+            return redirect(url_for("perfil_admin"))
+        return render_template("perfil_admin.html")
+    
+    # Si no está autenticado o no es administrador, mostrar formulario de login
     if request.method == "POST":
-
         username = request.form.get("username")
         password = request.form.get("password")
 
@@ -159,7 +166,7 @@ def perfil_admin():
                 session["user_mail"] = user[3]
                 session["user_rol"] = role
 
-                return render_template("perfil_admin.html")
+                return redirect(url_for("perfil_admin"))
             else:
                 flash("⚠️ No tiene permisos de administrador.")
                 return redirect(url_for("index"))
@@ -168,6 +175,110 @@ def perfil_admin():
         return redirect(url_for("perfil_admin"))
 
     return render_template("admin.html")
+
+
+# ============== MÓDULO DE GESTIÓN DE USUARIOS ==============
+
+@app.route("/mod-usuarios")
+def mod_usuarios():
+    if "user_id" not in session or session.get("user_rol", "").lower() not in ("admin", "administrador"):
+        return redirect(url_for("index"))
+    return render_template("mod_usuarios.html")
+
+
+@app.route("/buscar-usuarios", methods=["POST"])
+def buscar_usuarios():
+    if "user_id" not in session or session.get("user_rol", "").lower() not in ("admin", "administrador"):
+        return {"success": False, "message": "No autorizado"}, 403
+
+    search = request.get_json().get("search", "").strip()
+
+    if not search:
+        return {"usuarios": []}
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        # Buscar por nombre, email o fecha
+        cur.execute("""
+            SELECT id_user, user_name, user_mail, rol, creado_en 
+            FROM users 
+            WHERE user_name ILIKE %s 
+               OR user_mail ILIKE %s 
+               OR DATE(creado_en)::text LIKE %s
+            LIMIT 10
+        """, (f"%{search}%", f"%{search}%", f"%{search}%"))
+
+        usuarios = cur.fetchall()
+        resultado = []
+
+        for user in usuarios:
+            resultado.append({
+                "id_user": user[0],
+                "user_name": user[1],
+                "user_mail": user[2],
+                "rol": user[3],
+                "creado_en": str(user[4])
+            })
+
+        cur.close()
+        conn.close()
+
+        return {"usuarios": resultado}
+
+    except Exception as e:
+        print(f"Error en búsqueda: {e}")
+        return {"success": False, "message": "Error en la búsqueda"}, 500
+
+
+@app.route("/crear-usuario", methods=["POST"])
+def crear_usuario():
+    if "user_id" not in session or session.get("user_rol", "").lower() not in ("admin", "administrador"):
+        return {"success": False, "message": "No autorizado"}, 403
+
+    data = request.get_json()
+    username = data.get("username", "").strip()
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
+    rol = data.get("rol", "").strip()
+
+    # Validaciones
+    if not all([username, email, password, rol]):
+        return {"success": False, "message": "Todos los campos son obligatorios"}
+
+    if rol not in ["Profesor", "Alumno", "Oficina"]:
+        return {"success": False, "message": "Rol inválido"}
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        hashed_password = generate_password_hash(password)
+
+        cur.execute("""
+            INSERT INTO users (user_name, password, user_mail, creado_en, actualizado_en, rol) 
+            VALUES (%s, %s, %s, NOW(), NOW(), %s)
+        """, (username, hashed_password, email, rol))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return {"success": True, "message": "Usuario creado correctamente"}
+
+    except psycopg2.errors.UniqueViolation:
+        conn.rollback()
+        cur.close()
+        conn.close()
+        return {"success": False, "message": "El usuario o email ya existe"}
+
+    except Exception as e:
+        conn.rollback()
+        cur.close()
+        conn.close()
+        print(f"Error al crear usuario: {e}")
+        return {"success": False, "message": "Error al crear el usuario"}
 
 
 if __name__ == "__main__":
