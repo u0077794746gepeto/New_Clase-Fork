@@ -1,12 +1,47 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="es">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>NewCampus - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
 
-<div class="campus-wrapper">
-  <div class="campus-card">
-    <h2>Bienvenido, {{ session.get('user_name') }} (Administrador)</h2>
-    <p>Has accedido al panel de administración. Aquí podrás gestionar la aplicación.</p>
-    <p><a href="{{ url_for('logout') }}">Cerrar sesión</a></p>
-  </div>
+
+<body>
+
+      <header class="main-header">
+         <h2>🎓 Campus Konectia</h2>
+      </header>
+
+
+<div class="container">
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+                {% for msg in messages %}
+                    <p>{{ msg }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+    <div class="campus-wrapper">
+      <div class="campus-card">
+        <h2>Bienvenido, {{ session.get('user_name') }} (Administrador)</h2>
+        <p>Has accedido al panel de administración. Aquí podrás gestionar la aplicación.</p>
+        <p><a href="{{ url_for('logout') }}">Cerrar sesión</a></p>
+      </div>
+    </div>
+
+   
 </div>
-{% endblock %}
+
+
+</body>
+
+</html>
