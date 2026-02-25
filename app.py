@@ -130,14 +130,48 @@ def logout():
 def inject_api_key():
     return dict(api_key=os.getenv("OPENWEATHER_API_KEY"))
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 #Creamos la URL para el administrador
 @app.route("/app-admin", methods=("GET", "POST"))
 def perfil_admin():
+    if request.method == "POST":
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT id_user, password, rol, user_mail FROM users WHERE user_name=%s",
+            (username,)
+        )
+
+        user = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        if user and check_password_hash(user[1], password):
+            role = user[2] or ""
+            if role.lower() in ("admin", "administrador"):
+                session["user_id"] = user[0]
+                session["user_name"] = username
+                session["user_mail"] = user[3]
+                session["user_rol"] = role
+
+                return render_template("base_admin.html")
+            else:
+                flash("⚠️ No tiene permisos de administrador.")
+                return redirect(url_for("index"))
+
+        flash("❌ Usuario o contraseña incorrectos.")
+        return redirect(url_for("perfil_admin"))
+
     return render_template("admin.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 
