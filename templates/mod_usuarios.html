@@ -18,7 +18,7 @@
         <div class="mod-container">
             <div class="mod-header">
                 <h2>👥 Gestionar Usuarios</h2>
-                <a href="{{ url_for('perfil_admin') }}" class="btn-back">← Volver al Panel</a>
+                <a href="{{ url_for('admin.perfil_admin') }}" class="btn-back">← Volver al Panel</a>
             </div>
 
             <!-- SECCIÓN DE BÚSQUEDA -->
@@ -336,7 +336,7 @@
         }
 
         try {
-            const response = await fetch('{{ url_for("buscar_usuarios") }}', {
+            const response = await fetch('{{ url_for("admin.buscar_usuarios") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -382,7 +382,7 @@
         };
 
         try {
-            const response = await fetch('{{ url_for("crear_usuario") }}', {
+            const response = await fetch('{{ url_for("admin.crear_usuario") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
