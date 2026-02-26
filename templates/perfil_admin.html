@@ -149,7 +149,7 @@
 
     <script>
     document.getElementById('btn-usuarios').addEventListener('click', function() {
-        window.location.href = "{{ url_for('mod_usuarios') }}";
+        window.location.href = "{{ url_for('admin.mod_usuarios') }}";
     });
 
     document.getElementById('btn-asignaturas').addEventListener('click', function() {
@@ -173,7 +173,7 @@
     });
 
     document.getElementById('btn-cerrar').addEventListener('click', function() {
-        window.location.href = "{{ url_for('logout') }}";
+        window.location.href = "{{ url_for('auth.logout') }}";
     });
     </script>
 

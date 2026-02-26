@@ -1,16 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-import psycopg2
+from flask import Flask
 import os
-from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
-from functools import wraps
 
-# Cargar variables de entorno desde archivo .env
+# cargar variables de entorno al iniciar la aplicación
 load_dotenv()
 
-app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
 
+<<<<<<< HEAD
 # def get_db_connection():
 #     return psycopg2.connect(
 #         dbname=os.getenv("POSTGRES_DB"),
@@ -279,10 +275,29 @@ def crear_usuario():
         conn.close()
         print(f"Error al crear usuario: {e}")
         return {"success": False, "message": "Error al crear el usuario"}
+=======
+def create_app():
+    """Crea y configura la aplicación Flask, registrando los blueprints."""
+    app = Flask(__name__)
+    app.secret_key = os.getenv("SECRET_KEY")
+
+    # importar los módulos de rutas aquí para evitar dependencias circulares
+    from routes.auth import auth_bp
+    from routes.admin import admin_bp
+    from routes.profesor import profesor_bp
+    from routes.alumno import alumno_bp
+    from routes.oficina import oficina_bp
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(profesor_bp)
+    app.register_blueprint(alumno_bp)
+    app.register_blueprint(oficina_bp)
+
+    return app
+>>>>>>> origin/main
 
 
 if __name__ == "__main__":
+    app = create_app()
     app.run(debug=True)
-
-
-
