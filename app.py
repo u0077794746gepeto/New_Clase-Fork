@@ -24,6 +24,10 @@ def create_app():
     app.register_blueprint(alumno_bp)
     app.register_blueprint(oficina_bp)
 
+    @app.context_processor
+    def inject_vars():
+        return {'api_key': os.getenv("OPENWEATHER_API_KEY")}
+
     return app
 
 
@@ -35,3 +39,5 @@ app = create_app()
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
