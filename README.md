@@ -87,6 +87,7 @@ CREATE TYPE public.rol_usuario AS ENUM (
 
 ```
 Ejecuta el siguiente esquema para crear la tabla de usuarios:
+
 CREATE TABLE public.users (
     id_user integer NOT NULL,
     user_name character varying(50) NOT NULL,
