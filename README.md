@@ -103,7 +103,25 @@ SECRET_KEY: Una cadena aleatoria para proteger las sesiones.
 ```
 python app.py
 ```
+## Capturas del proyecto
 
+1. **Pantalla Login**
+![Login de la aplicación](imagenes/01_Login.png)
+
+2. **Pantalla de Registro**
+![Registro de usuario](imagenes/02_Registro.png)
+
+3. **Pantalla Login del administrador**
+![Login de la aplicación](imagenes/03_Login_Admin.png)
+
+4. **Pantalla de la Ficha del Usuario**
+![Registro de usuario](imagenes/04_Ficha_Usuario.png)
+
+5. **Pantalla del Panel del Administrador**
+![Login de la aplicación](imagenes/05_Panel-admin.png)
+
+6. **Pantalla de Edicción de Usuario**
+![Registro de usuario](imagenes/06_Edicion_Usuario.png)
 
 ## 📡 Información de Despliegue
 Este repositorio está optimizado para Railway. Cada vez que realices un git push a la rama principal, el sistema se actualizará automáticamente, gestionando las variables de entorno y la base de datos de forma nativa.
