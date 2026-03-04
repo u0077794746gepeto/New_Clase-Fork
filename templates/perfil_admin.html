@@ -40,13 +40,15 @@
                     ⚙️ Configuración
                 </button>
                 
-                <button class="admin-btn" id="btn-nuevo">
-                    ⭐ Nuevo
-                </button>
+                <a href="{{ url_for('anuncios.lista_anuncios') }}" class="admin-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                    📢 Tablón de Anuncios
+                </a>
                 
-                <button class="admin-btn btn-logout" id="btn-cerrar" data-url="{{ url_for('auth.logout') }}">
+                <a href="{{ url_for('auth.logout') }}" class="admin-btn btn-logout" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
                     🚪 Cerrar Sesión
-                </button>
+                </a>
+
+
             </div>
         </div>
     </div>
@@ -54,4 +56,3 @@
 </body>
 
 </html>
-

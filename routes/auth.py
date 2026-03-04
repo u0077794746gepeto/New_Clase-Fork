@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
+from psycopg2.extras import RealDictCursor
 from db import get_db_connection
 
 auth_bp = Blueprint("auth", __name__)
@@ -123,8 +124,24 @@ def campus():
             cur.close()
             conn.close()
 
-    # para otros roles, muestra la página de bienvenida / ficha con calendario
-    return render_template("campus.html")
+    # --- LÓGICA PARA CARGAR ANUNCIOS EN LA FICHA ---
+    anuncios_lista = []
+    conn_anuncios = get_db_connection()
+    cur_anuncios = conn_anuncios.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur_anuncios.execute(
+            "SELECT titulo, mensaje, prioridad, fecha_publicacion FROM anuncios ORDER BY fecha_publicacion DESC LIMIT 5"
+        )
+        anuncios_lista = cur_anuncios.fetchall()
+    except Exception as e:
+        print(f"Error al cargar anuncios: {e}")
+    finally:
+        cur_anuncios.close()
+        conn_anuncios.close()
+    # -----------------------------------------------
+
+    # para otros roles, muestra la página de bienvenida / ficha con calendario y anuncios
+    return render_template("campus.html", anuncios=anuncios_lista)
 
 
 @auth_bp.route("/logout")
@@ -222,6 +239,5 @@ def modify_event(event_id):
 
 
 @auth_bp.app_context_processor
-
 def inject_api_key():
     return dict(api_key=os.getenv("OPENWEATHER_API_KEY"))

@@ -148,3 +148,12 @@ CREATE INDEX ON public.events(user_id);
 -- fin de la extensión de esquema
 
 
+
+
+CREATE TABLE anuncios (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    mensaje TEXT NOT NULL,
+    prioridad VARCHAR(20) NOT NULL,
+    fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

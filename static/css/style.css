@@ -754,3 +754,13 @@ Colores: Elegimos tonos azulados (#f0f4f8) porque transmiten confianza y limpiez
     }
 }
 
+# Para que los anuncios no se vean pegados
+
+.user-item {
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.03); /* Un toque de brillo para separar del fondo */
+    transition: transform 0.2s;
+}
+.user-item:hover {
+    transform: scale(1.01); /* Efecto sutil al pasar el ratón */
+}

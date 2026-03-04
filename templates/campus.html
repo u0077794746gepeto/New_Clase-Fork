@@ -25,6 +25,19 @@
     <div class="calendar-container">
         <div id="calendar"></div>
     </div>
+
+    <div class="student-announcements" style="background: #1b263b; padding: 20px; border-radius: 15px; margin-top: 20px;">
+        <h3 style="color: #f39c12;">📢 Últimos Avisos</h3>
+        {% for anuncio in anuncios %}
+            <div style="border-bottom: 1px solid #2c3e50; padding: 10px 0;">
+                <strong style="color: white; display: block;">{{ anuncio.titulo }}</strong>
+                <p style="color: #bdc3c7; font-size: 0.9rem; margin: 5px 0;">{{ anuncio.mensaje }}</p>
+                <small style="color: #7f8c8d; font-size: 0.7rem;">{{ anuncio.fecha_publicacion }}</small>
+            </div>
+        {% else %}
+            <p style="color: #7f8c8d;">No hay avisos nuevos.</p>
+        {% endfor %}
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -34,4 +47,5 @@
 {% endblock %}
 
 {% block content %}
+{# Este bloque se deja vacío para respetar tu estructura original #}
 {% endblock %}

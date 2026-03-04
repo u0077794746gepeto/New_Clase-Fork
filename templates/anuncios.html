@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* 1. ELIMINAR EL HALO NARANJA Y SOMBRAS DEL CONTENEDOR BASE */
+    .container, main, section, .panel-principal {
+        max-width: none !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* 2. ESTILO DEL BOTÓN "VOLVER" (IGUAL A MOD-USUARIOS.HTML) */
+    .btn-volver-estilo {
+        background-color: #34495e;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        border: 1px solid #3d5a80;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn-volver-estilo:hover {
+        background-color: #2c3e50;
+        color: #ff9800;
+    }
+
+    /* 3. ESTRUCTURA Y DISEÑO SIMÉTRICO */
+    .master-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding-bottom: 60px;
+        color: white;
+    }
+
+    .header-panel {
+        width: 90%;
+        max-width: 1000px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        margin-top: 10px;
+    }
+
+    .dashboard-container {
+        display: flex;
+        gap: 20px;
+        width: 90%;
+        max-width: 1000px;
+        align-items: stretch; /* Ambas cajas miden lo mismo verticalmente */
+    }
+
+    .panel-box {
+        background: #243447;
+        border-radius: 15px;
+        border: 1px solid #3d5a80;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .col-form { flex: 0 0 350px; }
+    .col-lista { flex: 1; overflow: hidden; }
+
+    .scroll-area {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-right: 10px;
+        margin-top: 10px;
+    }
+
+    .scroll-area::-webkit-scrollbar { width: 6px; }
+    .scroll-area::-webkit-scrollbar-thumb { background: #3d5a80; border-radius: 10px; }
+
+    .input-style {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #3d5a80;
+        background: #1b263b;
+        color: white;
+        box-sizing: border-box;
+    }
+
+    .btn-main {
+        background: #ff9800;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+        transition: transform 0.2s;
+    }
+
+    .btn-main:hover { transform: scale(1.01); }
+
+    .anuncio-item {
+        background: #1b263b;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        border-left: 6px solid #3498db;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+
+<div class="master-wrapper">
+    <div class="header-panel">
+        <h2 style="color: #ff9800; margin: 0; font-size: 1.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">📢 Gestión del Tablón</h2>
+        <a href="{{ url_for('admin.perfil_admin') }}" class="btn-volver-estilo">
+            <span>←</span> Volver al Panel
+        </a>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="panel-box col-form">
+            <h3 id="form-title" style="margin-top: 0; color: #ecf0f1; font-size: 1.2rem; margin-bottom: 20px;">Nuevo Anuncio</h3>
+            <form id="main-form" action="{{ url_for('anuncios.nuevo_anuncio') }}" method="POST">
+                <input type="text" id="form-titulo" name="titulo" class="input-style" placeholder="Título corto..." required>
+                <textarea id="form-mensaje" name="mensaje" class="input-style" placeholder="Escribe el mensaje aquí..." required style="height: 120px; resize: none; font-family: inherit;"></textarea>
+                <select id="form-prioridad" name="prioridad" class="input-style">
+                    <option value="normal">Prioridad: Normal (Azul)</option>
+                    <option value="importante">Prioridad: Importante (Amarillo)</option>
+                    <option value="urgente">Prioridad: Urgente (Rojo)</option>
+                </select>
+                <button type="submit" id="submit-btn" class="btn-main">PUBLICAR AHORA</button>
+                <button type="button" id="cancel-edit-btn" style="display: none; background: #5d6d7e; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; font-size: 0.9rem;">Cancelar Edición</button>
+            </form>
+        </div>
+
+        <div class="panel-box col-lista">
+            <h3 style="margin-top: 0; color: #bdc3c7; font-size: 1.2rem; margin-bottom: 10px;">Anuncios Publicados</h3>
+            <div class="scroll-area">
+                {% if anuncios_para_html %}
+                    {% for a in anuncios_para_html %}
+                        <div class="anuncio-item" id="card-{{ a.id }}" 
+                             style="border-left-color: {% if a.prioridad == 'urgente' %}#e74c3c{% elif a.prioridad == 'importante' %}#f1c40f{% else %}#3498db{% endif %};"
+                             data-id="{{ a.id }}" data-titulo="{{ a.titulo }}" data-mensaje="{{ a.mensaje }}" data-prioridad="{{ a.prioridad }}">
+                            <div style="flex: 1; padding-right: 15px;">
+                                <strong style="color: white; font-size: 1.05rem;">{{ a.titulo }}</strong>
+                                <p style="margin: 5px 0; color: #bdc3c7; font-size: 0.9rem; line-height: 1.4;">{{ a.mensaje }}</p>
+                                <small style="color: #5d6d7e; font-size: 0.75rem;">{{ a.fecha_publicacion }}</small>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" onclick="prepararEdicion('{{ a.id }}')" style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold;">Editar</button>
+                                <form action="{{ url_for('anuncios.eliminar_anuncio', id_anuncio=a.id) }}" method="POST" onsubmit="return confirm('¿Eliminar este anuncio?');">
+                                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold;">Borrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center; color: #5d6d7e; font-size: 1rem; margin-top: 40px;">No hay anuncios activos.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const urlNuevo = "{{ url_for('anuncios.nuevo_anuncio') }}";
+    const urlEditarBase = "/anuncios/editar/"; 
+
+    function prepararEdicion(id) {
+        const card = document.getElementById('card-' + id);
+        document.getElementById('form-titulo').value = card.getAttribute('data-titulo');
+        document.getElementById('form-mensaje').value = card.getAttribute('data-mensaje');
+        document.getElementById('form-prioridad').value = card.getAttribute('data-prioridad');
+        
+        document.getElementById('form-title').innerText = "Editando Anuncio (ID: " + id + ")";
+        document.getElementById('form-title').style.color = "#ff9800";
+        document.getElementById('submit-btn').innerText = "GUARDAR CAMBIOS";
+        document.getElementById('cancel-edit-btn').style.display = "block";
+        document.getElementById('main-form').action = urlEditarBase + id;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('cancel-edit-btn').addEventListener('click', () => {
+        document.getElementById('main-form').reset();
+        document.getElementById('form-title').innerText = "Nuevo Anuncio";
+        document.getElementById('form-title').style.color = "#ecf0f1";
+        document.getElementById('submit-btn').innerText = "PUBLICAR AHORA";
+        document.getElementById('cancel-edit-btn').style.display = "none";
+        document.getElementById('main-form').action = urlNuevo;
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+/* Usamos tus mismas variables */
+:root {
+    --orange: #ff7a2f;
+    --dark-panel: #1a1d27;
+}
+
+body {
+    background: radial-gradient(circle at top, #222836, #0b0e14);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container-tablon {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Tarjetas de anuncios estilo "Card" como tu login */
+.card-anuncio {
+    background: var(--dark-panel);
+    border: 1px solid rgba(255, 122, 47, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border-left: 5px solid var(--orange); /* Marca naranja lateral */
+}
+
+/* El formulario de creación con tu estilo de inputs */
+.form-crear {
+    background: var(--dark-panel);
+    padding: 30px;
+    border-radius: 22px;
+    margin-bottom: 50px;
+    border: 1px solid var(--orange);
+}
+
+/* Reutilizamos el estilo de tus botones */
+.btn-publicar {
+    background: linear-gradient(135deg,#ff8c42,#ff5f1f);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,122,47,.6);
+}
