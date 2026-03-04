@@ -13,7 +13,7 @@ La interfaz ha sido diseñada bajo la filosofía de "claridad a un vistazo", org
 * **Panel de Usuario:** Disposición en paralelo (Flexbox) que muestra la ficha técnica del usuario a la izquierda y un calendario expandido a la derecha.
 * **Gestión Administrativa:** Sistema de búsqueda en tiempo real y creación de usuarios con generación automática de eventos de bienvenida.
 * **Widget Climático:** Integración con OpenWeather API para monitorizar el estado del tiempo en el pie de página.
-
+* **Tablón de Anuncios:** Interfaz administrativa de doble columna con simetría dinámica. Permite la creación, edición y eliminación de comunicados con categorización por prioridades visuales (Normal, Importante, Urgente).
 ---
 
 ## 🚀 Stack Tecnológico
@@ -148,6 +148,9 @@ python app.py
 6. **Pantalla de Edicción de Usuario**
 ![Registro de usuario](imagenes/06_Edicion_Usuario.png)
 
+7. **Pantalla de Gestión de Anuncios**
+![Gestión de anuncios del tablón](imagenes/07_Gestion_Anuncios.jpg)
+
 ## 📡 Información de Despliegue
 Este repositorio está optimizado para Railway. Cada vez que realices un git push a la rama principal, el sistema se actualizará automáticamente, gestionando las variables de entorno y la base de datos de forma nativa.
 
@@ -173,6 +176,12 @@ El evento de "Bienvenida" se genera en el **Backend** en el momento exacto en qu
 1.  **Captura de datos:** Al pulsar "Crear Usuario" en el panel de administración, se envía un objeto JSON a la ruta `/crear-usuario` en `admin.py`.
 2.  **El Disparador (Trigger):** Dentro de la función de creación, tras insertar los datos del usuario, se ejecuta la cláusula SQL `RETURNING id_user`. Este es el punto crítico: obtenemos el ID único generado por la base de datos para vincular el calendario al usuario correcto.
 3.  **Inserción Vinculada:** Con el ID en mano, el sistema ejecuta automáticamente un segundo `INSERT` en la tabla `public.events`.
+
+### 3. Sistema de Anuncios y Simetría de Interfaz
+La sección de anuncios implementa una experiencia de usuario (UX) centrada en la proporcionalidad:
+* **Arquitectura Flexbox "Stretch":** La caja de anuncios activos iguala automáticamente la altura del formulario de creación para mantener el equilibrio visual.
+* **Gestión de Desbordamiento:** Utiliza un contenedor con `overflow-y: auto`, permitiendo la navegación por scroll interno sin afectar al layout global de la página.
+* **Priorización Visual:** Categorización dinámica mediante bordes laterales de colores según la importancia del mensaje (Urgente 🔴, Importante 🟡, Normal 🔵).
 
 **Detalles técnicos del evento automático:**
 * **Título:** "Bienvenido al campus".
